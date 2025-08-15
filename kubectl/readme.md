@@ -1,9 +1,11 @@
 ### Build dockerfile
 
 ```bash
-docker build -t my-image-name:tag .
-Ex:
+Without minikube
 docker build -t kubectl:1.30.1 kubectl/.
+
+With minikube
+docker build --no-cache --build-arg MINIKUBE_PATH=$HOME -t kubectl:1.30.1 dockerfiles/kubectl/.
 ```
 * ```-t my-image-name:tag```: This assigns a name and an optional tag to your image. You can use latest or any version/tag of your choice.
 * ```.```: Indicates that Docker should look for the Dockerfile in the current directory.
@@ -38,9 +40,13 @@ nano ~/.bashrc (if you use bash)
 or
 nano  ~/.zshrc (if you use Zsh)
 ```
-
+Without Minikube
 ```bash
 alias kubectl='docker run --rm -it -v $HOME/.kube:/root/.kube kubectl:1.30.1'
+```
+With Minikube
+```bash
+alias kubectl='docker run --rm --network host -it -v $HOME/.kube:/root/.kube -v $HOME/.minikube:$HOME/.minikube kubectl:1.30.1'
 ```
 
 ```bash
